@@ -2,6 +2,6 @@ from django.urls import path
 from comments.views import CommentListCreateView
 
 urlpatterns = [
-    path("comments/", CommentListCreateView.as_view()),
+    path("", CommentListCreateView.as_view(), name="comment-list"),
 ]
 app_name = "comments"

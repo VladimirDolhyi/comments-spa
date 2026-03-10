@@ -94,3 +94,15 @@ class CommentSerializer(serializers.ModelSerializer):
             resize_image(comment.image)
 
         return comment
+
+
+class PreviewSerializer(serializers.Serializer):
+    text = serializers.CharField()
+
+    def validate_text(self, value):
+
+        cleaned = clean_comment_text(value)
+
+        validate_xhtml(cleaned)
+
+        return cleaned

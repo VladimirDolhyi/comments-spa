@@ -8,7 +8,11 @@ from rest_framework import status
 
 from comments.models import Comment
 from comments.serializers import CommentSerializer, PreviewSerializer
-from comments.validators import clean_comment_text, validate_xhtml
+
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
+from django.shortcuts import render
 
 
 class CommentPagination(PageNumberPagination):
@@ -68,3 +72,26 @@ class CommentPreviewAPIView(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
+
+
+def create_comment(request):
+
+    comment = Comment.objects.create(...)
+
+    channel_layer = get_channel_layer()
+
+    async_to_sync(channel_layer.group_send)(
+        "comments",
+        {
+            "type": "new_comment",
+            "data": {
+                "user": comment.user_name,
+                "text": comment.text,
+                "created": str(comment.created_at)
+            }
+        }
+    )
+
+
+def index(request):
+    return render(request, "index.html")

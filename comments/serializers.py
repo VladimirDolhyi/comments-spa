@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from captcha.models import CaptchaStore
+
 from comments.models import Comment
 from comments.validators import (
     validate_username,
@@ -14,15 +16,49 @@ class CommentSerializer(serializers.ModelSerializer):
 
     replies = serializers.SerializerMethodField()
 
+    captcha_key = serializers.CharField(write_only=True, required=True)
+    captcha_value = serializers.CharField(write_only=True, required=True)
+
     class Meta:
         model = Comment
         fields = "__all__"
+        read_only_fields = ["id", "created_at"]
 
     def get_replies(self, obj):
 
         replies = obj.replies.all()
 
         return CommentSerializer(replies, many=True, context=self.context).data
+
+    def get_fields(self):
+        fields = super().get_fields()
+
+        request = self.context.get("request")
+
+        if request and request.method == "GET":
+            fields.pop("captcha_key", None)
+            fields.pop("captcha_value", None)
+
+        return fields
+
+    def validate(self, data):
+
+        captcha_key = data.pop("captcha_key")
+        captcha_value = data.pop("captcha_value")
+
+        captcha = CaptchaStore.objects.filter(
+            hashkey=captcha_key,
+            response=captcha_value.lower()
+        ).first()
+
+        if not captcha:
+            raise serializers.ValidationError({
+                "captcha": "Invalid captcha"
+            })
+
+        captcha.delete()
+
+        return data
 
     def validate_username(self, value):
 

@@ -1,5 +1,9 @@
+from captcha.helpers import captcha_image_url
+from captcha.models import CaptchaStore
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from comments.models import Comment
 from comments.serializers import CommentSerializer
@@ -33,6 +37,15 @@ class CommentListCreateView(generics.ListCreateAPIView):
             "-date": "-created_at",
         }
 
-        queryset = queryset.order_by(allowed_sorts.get(sort, "-created_at"))
+        return queryset.order_by(allowed_sorts.get(sort, "-created_at"))
 
-        return queryset
+
+class CaptchaAPIView(APIView):
+
+    def get(self, request):
+        key = CaptchaStore.generate_key()
+
+        return Response({
+            "captcha_key": key,
+            "captcha_image": captcha_image_url(key)
+        })

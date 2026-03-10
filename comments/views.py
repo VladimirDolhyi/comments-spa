@@ -33,9 +33,6 @@ class CommentListCreateView(generics.ListCreateAPIView):
             "-date": "-created_at",
         }
 
-        if sort in allowed_sorts:
-            queryset = queryset.order_by(allowed_sorts[sort])
-        else:
-            queryset = queryset.order_by("-created_at")
+        queryset = queryset.order_by(allowed_sorts.get(sort, "-created_at"))
 
         return queryset

@@ -23,6 +23,9 @@ def clean_comment_text(text):
 
 def validate_text_file(file):
 
+    if not file:
+        return
+
     if not file.name.lower().endswith(".txt"):
         raise ValidationError("Only TXT files allowed")
 
@@ -30,9 +33,10 @@ def validate_text_file(file):
         raise ValidationError("Text file too large")
 
 
-
-
 def validate_image(image):
+
+    if not image:
+        return
 
     with Image.open(image) as img:
         if img.format not in ["JPEG", "PNG", "GIF"]:

@@ -1,18 +1,16 @@
 from captcha.helpers import captcha_image_url
 from captcha.models import CaptchaStore
+from django.views.generic import TemplateView
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
 
 from comments.models import Comment
 from comments.serializers import CommentSerializer, PreviewSerializer
 
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-
-from django.shortcuts import render
 
 
 class CommentPagination(PageNumberPagination):
@@ -45,6 +43,23 @@ class CommentListCreateView(generics.ListCreateAPIView):
 
         return queryset.order_by(allowed_sorts.get(sort, "-created_at"))
 
+    def perform_create(self, serializer):
+        comment = serializer.save()
+
+        channel_layer = get_channel_layer()
+
+        async_to_sync(channel_layer.group_send)(
+            "comments",
+            {
+                "type": "new_comment",
+                "data": {
+                    "user": comment.username,
+                    "text": comment.text,
+                    "created": str(comment.created_at)
+                }
+            }
+        )
+
 
 class CaptchaAPIView(APIView):
 
@@ -57,41 +72,19 @@ class CaptchaAPIView(APIView):
         })
 
 
-class CommentPreviewAPIView(APIView):
+class CommentPreviewAPIView(generics.GenericAPIView):
+
+    serializer_class = PreviewSerializer
 
     def post(self, request):
 
-        serializer = PreviewSerializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-        if serializer.is_valid():
-            return Response({
-                "preview": serializer.validated_data["text"]
-            })
-
-        return Response(
-            serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST
-        )
+        return Response({
+            "preview": serializer.validated_data["text"]
+        })
 
 
-def create_comment(request):
-
-    comment = Comment.objects.create(...)
-
-    channel_layer = get_channel_layer()
-
-    async_to_sync(channel_layer.group_send)(
-        "comments",
-        {
-            "type": "new_comment",
-            "data": {
-                "user": comment.user_name,
-                "text": comment.text,
-                "created": str(comment.created_at)
-            }
-        }
-    )
-
-
-def index(request):
-    return render(request, "index.html")
+class IndexView(TemplateView):
+    template_name = "index.html"

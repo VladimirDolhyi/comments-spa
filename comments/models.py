@@ -32,4 +32,4 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.username
+        return f"#{self.id} | {self.username} | {self.created_at:%H:%M} | {self.text[:20]}"

@@ -14,6 +14,12 @@ from comments.services import resize_image
 
 class CommentSerializer(serializers.ModelSerializer):
 
+    parent = serializers.PrimaryKeyRelatedField(
+        queryset=Comment.objects.all(),
+        required=False,
+        allow_null=True
+    )
+
     replies = serializers.SerializerMethodField()
 
     captcha_key = serializers.CharField(write_only=True, required=True)

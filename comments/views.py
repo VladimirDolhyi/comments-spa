@@ -1,10 +1,12 @@
-from captcha.helpers import captcha_image_url
-from captcha.models import CaptchaStore
-from django.views.generic import TemplateView
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from captcha.helpers import captcha_image_url
+from captcha.models import CaptchaStore
+from django.views.generic import TemplateView
+from django.db.models import Prefetch
 
 from comments.models import Comment
 from comments.serializers import CommentSerializer, PreviewSerializer
@@ -24,11 +26,13 @@ class CommentListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
 
+        replies = Comment.objects.all().order_by("created_at")
+
         queryset = (
             Comment.objects
             .filter(parent=None)
-            .prefetch_related("replies")
-        )
+            .prefetch_related(
+                Prefetch("replies", queryset=replies)))
 
         sort = self.request.GET.get("sort")
 

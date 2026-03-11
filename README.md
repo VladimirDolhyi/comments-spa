@@ -6,6 +6,12 @@ Backend API for the commenting SPA written on DRF.
 
 The project implements a commenting system with support for nested replies, file uploads, and server-side validation.
 
+### 🎥 Demo Video
+
+Watch a short demo of the application:
+
+https://www.loom.com/share/fe0f1c61ff6d4adfa1d67296441009fd
+
 ### 👉 Used Technologies
 
 * Python3 must be already installed 

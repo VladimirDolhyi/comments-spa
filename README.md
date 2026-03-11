@@ -102,6 +102,13 @@ Comment:
 
 Comments support a tree structure.
 
+### 👉 Database Schema
+
+* schema.mwb — model for MySQL Workbench  
+* schema.png — database schema image
+
+Comments support a tree structure.
+
 ### ✨ How to use it
 
 > Download the code 

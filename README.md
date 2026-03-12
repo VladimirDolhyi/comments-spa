@@ -12,17 +12,19 @@ Watch a short demo of the application:
 
 https://www.loom.com/share/fe0f1c61ff6d4adfa1d67296441009fd
 
-### 👉 Used Technologies
+### 👉 Tech Stack
 
-* Python3 must be already installed 
-* Django  
-* Django REST Framework  
-* SQLite  
-* Docker  
-* Docker Compose  
-* Pillow  
-* Bleach  
-* django-simple-captcha  
+- Python 3
+- Django  
+- Django REST Framework
+- Django Channels
+- Daphne
+- SQLite  
+- Docker  
+- Docker Compose  
+- Pillow  
+- Bleach  
+- django-simple-captcha  
 
 ### 👉 Features
 
@@ -51,31 +53,38 @@ https://www.loom.com/share/fe0f1c61ff6d4adfa1d67296441009fd
 ### 👉 Allowed HTML tags
 
 The user can use the following HTML tags:
-```bash
-$ <a href="" title=""></a>
-$ <code></code>
-$ <i></i>
-$ <strong></strong>
+```
+<a href="" title=""></a>
+<code></code>
+<i></i>
+<strong></strong>
 ```
 All other HTML tags are removed on the server.
 
 ### 👉 API
+#### 👉 Base URL
+
+```
+http://localhost:8000/api/
+http://127.0.0.1:8000/api/
+```
+
 #### 👉 Get a list of comments
 GET
-```bash
-$ /api/comments/
+```
+/api/comments/
 ```
 Sorting:
-```bash
-$ /api/comments/?sort=username
-$ /api/comments/?sort=email
-$ /api/comments/?sort=date
+```
+/api/comments/?sort=username
+/api/comments/?sort=email
+/api/comments/?sort=date
 ```
 
 #### 👉 Create a comment
 POST
-```bash
-$ /api/comments/
+```
+/api/comments/
 ```
 
 Request fields:  
@@ -90,8 +99,14 @@ Request fields:
 
 #### 👉 Preview comment
 POST
-```bash
-$ /api/comments/preview/
+```
+/api/preview/
+```
+
+#### 👉 Get CAPTCHA
+GET
+```
+/api/captcha/
 ```
 
 ### 👉 Database structure
@@ -120,8 +135,8 @@ Comments support a tree structure.
 > Download the code 
 
 ```bash
-$ git clone https://github.com/VladimirDolhyi/comments-spa.git
-$ cd comments-spa
+git clone https://github.com/VladimirDolhyi/comments-spa.git
+cd comments-spa
 ```
 
 #### 👉 Set Up
@@ -129,26 +144,26 @@ $ cd comments-spa
 > Install modules via `VENV`  
 
 ```bash
-$ python -m venv venv
-$ source venv/bin/activate (on macOS)
-$ venv\Scripts\activate (on Windows)
-$ pip install -r requirements.txt
+python -m venv venv
+source venv/bin/activate (on macOS)
+venv\Scripts\activate (on Windows)
+pip install -r requirements.txt
 ```
 
 > Perform migrations:
 
 ```bash
-$ python manage.py migrate
+python manage.py migrate
 ```
 > Run the server
 
 ```bash
-$ python manage.py runserver
+python manage.py runserver
 ```
 
 > The server will be available at:
-```bash
-$ http://127.0.0.1:8000
+```
+http://127.0.0.1:8000
 ```
 
 ### 👉 Run with docker
@@ -157,8 +172,8 @@ Docker should be installed
 
 > Clone the repository
 ```bash
-$ git clone https://github.com/VladimirDolhyi/comments-spa.git
-$ cd comments-spa
+git clone https://github.com/VladimirDolhyi/comments-spa.git
+cd comments-spa
 ```
 
 ```bash
@@ -174,17 +189,17 @@ docker compose --build
 
 In the new terminal:
 ```bash
-$ docker compose exec backend python manage.py migrate
+docker compose exec backend python manage.py migrate
 ```
 
 > Open project
-```bash
-$ http://localhost:8000
+```
+http://localhost:8000
 ```
 
 > Stop project
 ```bash
-$ docker compose down
+docker compose down
 ```
 
 ### 👉 Security
@@ -193,3 +208,15 @@ $ docker compose down
 * SQL injection protection via Django ORM
 * server-side data validation
 * CAPTCHA to protect against spam
+
+### 👉 Comments List
+![Comments List](images/Comments List.png)
+
+### 👉 Comment Create
+![Comment Create](images/Comment Create.png)
+
+### 👉 Comment Preview
+![Comment Preview](images/Comment Preview.png)
+
+### 👉 Captcha
+![Captcha](images/Captcha.png)

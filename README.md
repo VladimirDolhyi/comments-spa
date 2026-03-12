@@ -230,13 +230,13 @@ docker compose down
 * CAPTCHA to protect against spam
 
 ### 👉 Comments List
-![Comments List](images/Comments List.png)
+![Comments List](images/Comments_List.png)
 
 ### 👉 Comment Create
-![Comment Create](images/Comment Create.png)
+![Comment Create](images/Comment_Create.png)
 
 ### 👉 Comment Preview
-![Comment Preview](images/Comment Preview.png)
+![Comment Preview](images/Comment_Preview.png)
 
 ### 👉 Captcha
 ![Captcha](images/Captcha.png)

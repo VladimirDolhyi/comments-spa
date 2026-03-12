@@ -16,6 +16,7 @@ Including another URLconf
 """
 
 from django.contrib import admin
+from django.http import JsonResponse
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
@@ -27,4 +28,5 @@ urlpatterns = ([
     path("admin/", admin.site.urls),
     path("captcha/", include("captcha.urls")),
     path("api/", include("comments.urls")),
+    path("health/", lambda request: JsonResponse({"status": "ok"})),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))

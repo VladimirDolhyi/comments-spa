@@ -12,6 +12,20 @@ Watch a short demo of the application:
 
 https://www.loom.com/share/fe0f1c61ff6d4adfa1d67296441009fd
 
+### 🌐 Live Demo
+
+The application is deployed and available online:
+
+Base URL
+https://comments-spa.onrender.com
+
+API endpoint
+https://comments-spa.onrender.com/api/comments/
+
+Health check
+https://comments-spa.onrender.com/health/
+
+
 ### 👉 Tech Stack
 
 - Python 3
@@ -64,10 +78,16 @@ All other HTML tags are removed on the server.
 ### 👉 API
 #### 👉 Base URL
 
+##### Local
 ```
 http://localhost:8000/api/
 http://127.0.0.1:8000/api/
 ```
+
+##### Production:
+https://comments-spa.onrender.com/api/
+
+
 
 #### 👉 Get a list of comments
 GET

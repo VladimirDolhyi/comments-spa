@@ -1,0 +1,9 @@
+bleach==6.3.0
+channels==4.3.2
+daphne==4.2.1
+Django==5.2.12
+django-simple-captcha==0.6.3
+djangorestframework==3.16.1
+pillow==12.1.1
+python-dotenv==1.2.2
+whitenoise==6.12.0

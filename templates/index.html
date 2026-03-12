@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<script>
+
+console.log("script loaded");
+
+const socket = new WebSocket(
+    "ws://" + window.location.host + "/ws/comments/"
+);
+
+socket.onopen = function() {
+    console.log("WS connected");
+};
+
+socket.onmessage = function(event) {
+    
+    const data = JSON.parse(event.data);
+    
+    console.log("New comment:", data);
+};
+
+</script>
+
+</body>
+</html>

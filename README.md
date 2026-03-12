@@ -162,19 +162,19 @@ $ cd comments-spa
 ```
 
 ```bash
-docker-compose build
-docker-compose up
+docker compose build
+docker compose up
 ```
 or
 ```bash
-docker-compose --build
+docker compose --build
 ```
 
 > Perform migrations:
 
 In the new terminal:
 ```bash
-$ docker-compose exec backend python manage.py migrate
+$ docker compose exec backend python manage.py migrate
 ```
 
 > Open project
@@ -184,7 +184,7 @@ $ http://localhost:8000
 
 > Stop project
 ```bash
-$ docker-compose down
+$ docker compose down
 ```
 
 ### 👉 Security
